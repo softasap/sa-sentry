@@ -1,3 +1,7 @@
 ---
 # tasks file for sa-sentry
-  - include: tasks_sentry.yml 
+  - include: tasks_sentry.yml
+
+  - include: tasks_sentry_supervisord.yml
+
+#  - include: tasks_sentry_nginx.yml
