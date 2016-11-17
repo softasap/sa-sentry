@@ -1,0 +1,22 @@
+---
+
+  - name: SENTRY | Template startup scripts
+    template: src="{{role_dir}}/templates/scripts/{{item}}.j2" dest="{{sentry_home}}/scripts/{{item}}" owner="{{sentry_user}}" mode="u=rwx,g=rx,o=rx"
+    with_items:
+      - "cron.sh"
+      - "web.sh"
+      - "worker.sh"
+    become: yes
+    become_user: "{{sentry_user}}"
+
+  - name: SENTRY | template /etc/supervisord/programs/sentry.conf
+    template: src="{{role_dir}}/templates/supervisord/sentry.conf.j2" dest="/etc/supervisor/conf.d/sentry.conf"
+    become: yes
+
+  - name: SENTRY | supervisorctl reread
+    shell: supervisorctl reread
+    become: yes
+
+  - name: SENTRY | supervisorctl update
+    shell: supervisorctl update
+    become: yes

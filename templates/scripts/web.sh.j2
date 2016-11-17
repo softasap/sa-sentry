@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+cd {{sentry_home}}/conf
+# activate the virtualenv
+source {{sentry_virtual_env}}/bin/activate
+{{sentry_virtual_env}}/bin/sentry --config={{sentry_home}}/conf run web

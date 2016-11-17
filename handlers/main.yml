@@ -1,4 +1,11 @@
 ---
 # handlers file for sa-sentry
-  - name: sentry restart
-    debug: msg="reset supervisord here"
+  - name: restart sentry
+    service: name="supervisor" state="restarted"
+    become: yes
+
+
+  - name: restart nginx
+    service: name="nginx" state="restarted"
+    become: yes
+

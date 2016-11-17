@@ -13,6 +13,7 @@
       - "{{sentry_virtual_env}}"
       - "{{sentry_home}}/_static"
       - "{{sentry_home}}/conf"
+      - "{{sentry_home}}/scripts"
     become: yes
     tags:
       - sentry
@@ -90,12 +91,57 @@
        become: yes
        become_user: "{{sentry_user}}"
 
+     - name: SENTRY | Generate security key
+       shell: source {{sentry_virtual_env}}/bin/activate && \
+              sentry config generate-secret-key \
+              executable=/bin/bash
+       register: sentry_secret_key_raw
+       when: sentry_secret_key is not defined
+       become: yes
+       become_user: "{{sentry_user}}"
+
+     - name: SENTRY | Set temporary sentry security key fact
+       set_fact:
+         sentry_secret_key: "{{sentry_secret_key_raw.stdout}}"
+       when: sentry_secret_key is not defined         
 
      - name: SENTRY | Move initial config to destination
        command: mv /home/{{sentry_user}}/.sentry/{{item}} {{sentry_home}}/conf
        with_items:
          - "config.yml"
          - "sentry.conf.py"
+       become: yes
+       become_user: "{{sentry_user}}"
+
+     - name: SENTRY | Patch basic settings {{sentry_home}}/conf/sentry.conf.py
+       lineinfile: dest="{{sentry_home}}/conf/sentry.conf.py"  regexp="{{item.regexp}}" line="{{item.line}}" insertafter="{{item.insertafter | default('EOF')}}"
+       with_items: "{{sentry_conf_properties | default([])}}"
+       notify: restart sentry
+       become: yes
+       become_user: "{{sentry_user}}"
+
+     - name: SENTRY | Patch basic settings {{sentry_home}}/conf/config.yml
+       lineinfile: dest="{{sentry_home}}/conf/config.yml"  regexp="{{item.regexp}}" line="{{item.line}}" insertafter="{{item.insertafter | default('EOF')}}"
+       with_items: "{{sentry_yml_properties | default([])}}"
+       notify: restart sentry
+       become: yes
+       become_user: "{{sentry_user}}"
+
+
+     - name: SENTRY | Execute migrations, if any
+       shell: source {{sentry_virtual_env}}/bin/activate && \
+              SENTRY_CONF=/home/sentry/conf sentry upgrade --noinput --lock -v 2 \
+              executable=/bin/bash
+       when: sentry_db_exists | failed
+       become: yes
+       become_user: "{{sentry_user}}"
+
+     - name: SENTRY | Collect sentry static files
+       shell: source {{sentry_virtual_env}}/bin/activate && \
+              SENTRY_CONF=/home/sentry/conf sentry django collectstatic --noinput \
+              executable=/bin/bash
+       register: sentry_statics_collected
+       changed_when: not sentry_statics_collected.stderr.startswith('\n0 static files copied')
        become: yes
        become_user: "{{sentry_user}}"
 

@@ -1,0 +1,14 @@
+---
+
+  - name: install ssl certificates
+    copy: src="{{item.src}}"
+          dest="{{item.dest}}"
+          remote_src="{{item.remote_src}}"
+          mode=0600
+    with_items: "{{ sentry_certificates_pack | default([]) }}"
+    become: yes
+    notify:
+      - restart nginx
+
+
+  - include: "{{role_dir}}/tasks/__create_selfsigned_cert.yml fqdn='{{sentry_domain}}' key='{{sentry_ssl_key}}' crt='{{sentry_ssl_crt}}' target_dir='/etc/nginx'"

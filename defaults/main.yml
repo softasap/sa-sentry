@@ -1,7 +1,11 @@
 ---
 # defaults file for sa-sentry
 
+role_dir: "{{role_path}}"
+
 option_create_database: true
+option_configure_startup: true
+option_configure_nginx: true
 
 sentry_user: sentry
 sentry_home: "/home/{{sentry_user}}"
@@ -11,3 +15,32 @@ sentry_log_dir: /var/log/sentry
 sentry_database_name: sentry
 sentry_database_user: sentry
 sentry_database_password: sentry
+
+sentry_bind_to: "0.0.0.0"
+
+
+sentry_conf_properties:
+    - {regexp: "^        'USER':*", line: "        'USER': '{{sentry_database_user}}',"}
+    - {regexp: "^SENTRY_PUBLIC =*", line: "SENTRY_PUBLIC = False"}
+    - {regexp: "^SENTRY_WEB_HOST =*", line: "SENTRY_WEB_HOST = '{{sentry_bind_to}}'" }
+    - {regexp: "^SESSION_COOKIE_SECURE =*", line: "SESSION_COOKIE_SECURE = True" }
+    - {regexp: "^SECURE_PROXY_SSL_HEADER =*", line: "SECURE_PROXY_SSL_HEADER = (\"HTTP_X_FORWARDED_PROTOCOL\", \"https\")" }
+
+
+
+# Set this to false to require authentication
+
+sentry_yml_properties:
+    - {regexp: "^#?system.secret-key:*", line: "system.secret-key: '{{sentry_secret_key}}'"}
+
+
+sentry_certificates_pack:
+  - {
+      src: "{{role_dir}}/files/nginx/dhparam.pem",
+      dest: "/etc/nginx/dhparam.pem",
+      remote_src: false
+    }
+
+sentry_ssl_key: sentry
+sentry_ssl_crt: sentry
+sentry_domain: sentry.voronenko.info
