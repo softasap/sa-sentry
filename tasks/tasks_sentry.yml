@@ -6,19 +6,97 @@
       - sentry
 
   - name: SENTRY | Create directories
-    file: path="{{sentry_home}}" state=directory owner="{{sentry_user}}"
+    file: path="{{item}}" state=directory owner="{{sentry_user}}"
     with_items:
       - "{{sentry_home}}"
-      - "{{sentry_home}}/_static"
-      - "{{sentry_home}}/conf"
       - "{{sentry_log_dir}}"
       - "{{sentry_virtual_env}}"
+      - "{{sentry_home}}/_static"
+      - "{{sentry_home}}/conf"
+    become: yes
+    tags:
+      - sentry
+
+  - name: SENTRY | Install package dependencies
+    apt: pkg="{{item}}"
+    with_items:
+      - "software-properties-common"
+      - "python-dev"
+      - "apt-transport-https"
+      - "libffi-dev"
+      - "libssl-dev"
+      - "libjpeg-dev"
+      - "libxslt1-dev"
+      - "gcc"
+      - "libxml2-dev"
+      - "libxslt-dev"
+      - "libyaml-dev"
+      - "libpq-dev"
     become: yes
     tags:
       - sentry
 
   - name: SENTRY | Install Sentry
-    pip: name=sentry version={{sentry_version | default(omit)}} virtualenv="{{sentry_home}}/sentry"
+    pip: name=sentry version={{sentry_version | default(omit)}} virtualenv="{{sentry_virtual_env}}"
     become: yes
     become_user: "{{sentry_user}}"
     notify: sentry restart
+
+  - name: SENTRY | Check config initialized
+    stat: path="{{sentry_home}}/conf/config.xml"
+    register: sentry_config_result
+    become: yes
+    become_user: "{{sentry_user}}"
+
+  - block:
+
+    - name: SENTRY | Create db user
+      postgresql_user: name="{{sentry_database_user}}" password="{{sentry_database_password}}" role_attr_flags="CREATEDB,NOSUPERUSER"
+      become_user: postgres
+      become: yes
+      tags:
+        - sentry
+
+    - name: SENTRY | Check database exists
+      shell: psql -lqt | cut -d \| -f 1 | grep -qw {{sentry_database_name}}
+      become: yes
+      become_user: postgres
+      register: sentry_db_exists
+      ignore_errors: true
+
+    - debug: msg="Looks like sentry db already exists"
+      when: not ( sentry_db_exists | failed )
+
+    - name: SENTRY | Initialize initial database with
+      shell: source {{sentry_virtual_env}}/bin/activate && \
+             createdb -E utf-8 {{sentry_database_name}} \
+             executable=/bin/bash
+      when: sentry_db_exists | failed
+      become: yes
+      become_user: "{{sentry_user}}"
+
+    when: option_create_database
+
+  - block:
+
+     - name: SENTRY | Purge .sentry, if any
+       file: path="/home/{{sentry_user}}/.sentry" state=absent
+       become: yes
+
+     - name: SENTRY | Initialize initial config
+       shell: source {{sentry_virtual_env}}/bin/activate && \
+              sentry init \
+              executable=/bin/bash
+       become: yes
+       become_user: "{{sentry_user}}"
+
+
+     - name: SENTRY | Move initial config to destination
+       command: mv /home/{{sentry_user}}/.sentry/{{item}} {{sentry_home}}/conf
+       with_items:
+         - "config.yml"
+         - "sentry.conf.py"
+       become: yes
+       become_user: "{{sentry_user}}"
+
+    when: sentry_config_result.stat.exists == False

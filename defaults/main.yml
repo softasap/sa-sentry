@@ -1,7 +1,13 @@
 ---
 # defaults file for sa-sentry
 
+option_create_database: true
+
 sentry_user: sentry
-sentry_home: "/home/{{sentry_user}}/sentry"
+sentry_home: "/home/{{sentry_user}}"
 sentry_virtual_env: "/home/{{sentry_user}}/virtual_envs"
 sentry_log_dir: /var/log/sentry
+
+sentry_database_name: sentry
+sentry_database_user: sentry
+sentry_database_password: sentry
