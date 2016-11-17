@@ -10,11 +10,40 @@
 
   roles:
      - {
-         role: "sa-supervisord"
+         role: "sa-python",
+         tags: ["create"] 
        }
+     - {
+         role: "sa-redis",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-supervisord",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-postgres",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-nginx",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-uwsgi",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-sentry",
+         tags: ["create", "update"]
+       }
+
+
 
 
   tasks:
 
     - debug: msg="Tasks section"
+
+
 

@@ -1,6 +1,9 @@
+[submodule "roles/sa-sentry"]
+        path = roles/sa-sentry
+        url = https://github.com/softasap/sa-sentry.git
 [submodule "roles/sa-redis"]
         path = roles/sa-redis
-        url = https://github.com/softasap/sa-supervisord.git
+        url = https://github.com/softasap/sa-redis.git
 [submodule "roles/sa-supervisord"]
         path = roles/sa-supervisord
         url = https://github.com/softasap/sa-supervisord.git
@@ -12,7 +15,7 @@
         url = https://github.com/softasap/sa-nginx.git
 [submodule "roles/sa-uwsgi"]
         path = roles/sa-uwsgi
-        url = git@github.com:softasap/sa-uwsgi.git
+        url = https://github.com/softasap/sa-uwsgi.git
 [submodule "roles/sa-python"]
         path = roles/sa-python
-        url = git@github.com:softasap/sa-python.git
+        url = https://github.com/softasap/sa-python.git
