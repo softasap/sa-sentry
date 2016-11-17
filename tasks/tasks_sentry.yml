@@ -41,7 +41,7 @@
     pip: name=sentry version={{sentry_version | default(omit)}} virtualenv="{{sentry_virtual_env}}"
     become: yes
     become_user: "{{sentry_user}}"
-    notify: sentry restart
+    notify: restart sentry
 
   - name: SENTRY | Check config initialized
     stat: path="{{sentry_home}}/conf/config.xml"
@@ -103,7 +103,7 @@
      - name: SENTRY | Set temporary sentry security key fact
        set_fact:
          sentry_secret_key: "{{sentry_secret_key_raw.stdout}}"
-       when: sentry_secret_key is not defined         
+       when: sentry_secret_key is not defined
 
      - name: SENTRY | Move initial config to destination
        command: mv /home/{{sentry_user}}/.sentry/{{item}} {{sentry_home}}/conf
