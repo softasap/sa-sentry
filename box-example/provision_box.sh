@@ -19,5 +19,5 @@ $BOX_PWD
 verbose 4
 set box_address $BOX_ADDRESS
 
-provision $BOX_NAME update
+provision $BOX_NAME
 EOF

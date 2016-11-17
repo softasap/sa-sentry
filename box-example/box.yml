@@ -15,7 +15,8 @@
        }
      - {
          role: "sa-redis",
-         tags: ["create"]
+         option_install_using_chris_lea_ppa: true,
+         tags: ["create", "update"]
        }
      - {
          role: "sa-supervisord",
