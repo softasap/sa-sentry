@@ -1,0 +1,24 @@
+---
+  - name: SENTRY | Create dedicated user
+    user: name="{{sentry_user}}"
+    become: yes
+    tags:
+      - sentry
+
+  - name: SENTRY | Create directories
+    file: path="{{sentry_home}}" state=directory owner="{{sentry_user}}"
+    with_items:
+      - "{{sentry_home}}"
+      - "{{sentry_home}}/_static"
+      - "{{sentry_home}}/conf"
+      - "{{sentry_log_dir}}"
+      - "{{sentry_virtual_env}}"
+    become: yes
+    tags:
+      - sentry
+
+  - name: SENTRY | Install Sentry
+    pip: name=sentry version={{sentry_version | default(omit)}} virtualenv="{{sentry_home}}/sentry"
+    become: yes
+    become_user: "{{sentry_user}}"
+    notify: sentry restart

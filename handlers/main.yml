@@ -1,0 +1,4 @@
+---
+# handlers file for sa-sentry
+  - sentry restart:
+    debug: msg="reset supervisord here"

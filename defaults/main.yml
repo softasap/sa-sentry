@@ -1,0 +1,7 @@
+---
+# defaults file for sa-sentry
+
+sentry_user: sentry
+sentry_home: "/home/{{sentry_user}}/sentry"
+sentry_virtual_env: "/home/{{sentry_user}}/virtual_envs"
+sentry_log_dir: /var/log/sentry

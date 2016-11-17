@@ -1,0 +1,18 @@
+[submodule "roles/sa-redis"]
+        path = roles/sa-redis
+        url = https://github.com/softasap/sa-supervisord.git
+[submodule "roles/sa-supervisord"]
+        path = roles/sa-supervisord
+        url = https://github.com/softasap/sa-supervisord.git
+[submodule "roles/sa-postgres"]
+        path = roles/sa-postgres
+        url = https://github.com/softasap/sa-postgres.git
+[submodule "roles/sa-nginx"]
+        path = roles/sa-nginx
+        url = https://github.com/softasap/sa-nginx.git
+[submodule "roles/sa-uwsgi"]
+        path = roles/sa-uwsgi
+        url = git@github.com:softasap/sa-uwsgi.git
+[submodule "roles/sa-python"]
+        path = roles/sa-python
+        url = git@github.com:softasap/sa-python.git
