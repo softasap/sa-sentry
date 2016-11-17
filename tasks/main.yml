@@ -3,5 +3,7 @@
   - include: tasks_sentry.yml
 
   - include: tasks_sentry_supervisord.yml
+    when: option_configure_startup
 
-#  - include: tasks_sentry_nginx.yml
+  - include: tasks_sentry_nginx.yml
+    when: option_configure_nginx

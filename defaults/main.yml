@@ -4,6 +4,8 @@
 role_dir: "{{role_path}}"
 
 option_create_database: true
+option_configure_startup: true
+option_configure_nginx: true
 
 sentry_user: sentry
 sentry_home: "/home/{{sentry_user}}"
@@ -30,3 +32,15 @@ sentry_conf_properties:
 
 sentry_yml_properties:
     - {regexp: "^#?system.secret-key:*", line: "system.secret-key: '{{sentry_secret_key}}'"}
+
+
+sentry_certificates_pack:
+  - {
+      src: "{{role_dir}}/files/nginx/dhparam.pem",
+      dest: "/etc/nginx/dhparam.pem",
+      remote_src: false
+    }
+
+sentry_ssl_key: sentry
+sentry_ssl_crt: sentry
+sentry_domain: sentry.voronenko.info
