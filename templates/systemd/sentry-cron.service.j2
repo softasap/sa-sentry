@@ -1,0 +1,9 @@
+[program:sentry-cron]
+WorkingDirectory={{sentry_home}}
+Environment=SENTRY_CONF={{sentry_home}}/conf
+command=/www/sentry/bin/sentry run cron
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=syslog
+stderr_logfile=syslog

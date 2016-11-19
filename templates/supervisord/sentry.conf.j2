@@ -2,7 +2,7 @@
 [program:sentry-web]
 directory={{sentry_home}}
 environment=SENTRY_CONF="{{sentry_home}}/conf"
-command={{sentry_home}}/scripts/web.sh
+command={{sentry_virtual_env}}/bin/sentry --config={{sentry_home}}/conf run web
 autostart=true
 autorestart=true
 redirect_stderr=true
@@ -13,7 +13,7 @@ stderr_logfile=syslog
 [program:sentry-worker]
 directory={{sentry_home}}
 environment=SENTRY_CONF="{{sentry_home}}/conf"
-command={{sentry_home}}/scripts/worker.sh
+command={{sentry_virtual_env}}/bin/sentry --config={{sentry_home}}/conf run worker
 autostart=true
 autorestart=true
 redirect_stderr=true
@@ -24,7 +24,7 @@ stderr_logfile=syslog
 [program:sentry-cron]
 directory={{sentry_home}}
 environment=SENTRY_CONF="{{sentry_home}}/conf"
-command={{sentry_home}}/scripts/cron.sh
+command={{sentry_virtual_env}}/bin/sentry --config={{sentry_home}}/conf run cron
 autostart=true
 autorestart=true
 redirect_stderr=true

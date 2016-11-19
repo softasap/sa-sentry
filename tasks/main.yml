@@ -1,5 +1,8 @@
 ---
 # tasks file for sa-sentry
+
+  - include: __detect_init_system.yml
+
   - include: tasks_sentry.yml
 
   - include: tasks_sentry_supervisord.yml

@@ -1,0 +1,17 @@
+---
+
+  - name: SENTRY | Template startup scripts
+    template: src="{{role_dir}}/templates/systemd/{{item}}.service.j2" dest="/etc/systemd/system/{{item}}.service" owner="root"
+    with_items:
+      - "sentry-cron"
+      - "sentry-web"
+      - "sentry-cron"
+    become: yes
+
+  - name: SENTRY | Start services
+    service: name="{{item}}" state="started" enabled="yes"
+    with_items:
+      - "sentry-cron"
+      - "sentry-cron"
+      - "sentry-web"      
+    become: yes
