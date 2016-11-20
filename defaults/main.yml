@@ -15,11 +15,15 @@ sentry_log_dir: /var/log/sentry
 sentry_database_name: sentry
 sentry_database_user: sentry
 sentry_database_password: sentry
+sentry_registration_allowed: False
+
+sentry_mail_from: root@localhost
 
 sentry_bind_to: "0.0.0.0"
 
 
 sentry_conf_properties:
+    - {regexp: "^SENTRY_FEATURES\['auth:register'\]*", line: "SENTRY_FEATURES['auth:register'] = {{sentry_registration_allowed}}"}
     - {regexp: "^        'USER':*", line: "        'USER': '{{sentry_database_user}}',"}
     - {regexp: "^SENTRY_PUBLIC =*", line: "SENTRY_PUBLIC = False"}
     - {regexp: "^SENTRY_WEB_HOST =*", line: "SENTRY_WEB_HOST = '{{sentry_bind_to}}'" }
@@ -32,6 +36,7 @@ sentry_conf_properties:
 
 sentry_yml_properties:
     - {regexp: "^#?system.secret-key:*", line: "system.secret-key: '{{sentry_secret_key}}'"}
+    - {regexp: "^#?mail.from:*", line: "mail.from: '{{sentry_mail_from}}'"}
 
 
 sentry_certificates_pack:
