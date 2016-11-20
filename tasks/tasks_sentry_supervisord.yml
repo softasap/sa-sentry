@@ -13,6 +13,10 @@
     template: src="{{role_dir}}/templates/supervisord/sentry.conf.j2" dest="/etc/supervisor/conf.d/sentry.conf"
     become: yes
 
+  - name: SENTRY | Ensure supervisor started
+    service: name="supervisor" state="started"
+    become: yes
+
   - name: SENTRY | supervisorctl reread
     shell: supervisorctl reread
     become: yes

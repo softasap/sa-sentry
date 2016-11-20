@@ -23,7 +23,7 @@ sentry_bind_to: "0.0.0.0"
 
 
 sentry_conf_properties:
-    - {regexp: "^SENTRY_FEATURES\['auth:register'\]*", line: "SENTRY_FEATURES['auth:register'] = {{sentry_registration_allowed}}"}
+    - {regexp: "^SENTRY_FEATURES\\['auth:register'\\]*", line: "SENTRY_FEATURES['auth:register'] = {{sentry_registration_allowed}}"}
     - {regexp: "^        'USER':*", line: "        'USER': '{{sentry_database_user}}',"}
     - {regexp: "^SENTRY_PUBLIC =*", line: "SENTRY_PUBLIC = False"}
     - {regexp: "^SENTRY_WEB_HOST =*", line: "SENTRY_WEB_HOST = '{{sentry_bind_to}}'" }
