@@ -6,6 +6,7 @@ role_dir: "{{role_path}}"
 option_create_database: true
 option_configure_startup: true
 option_configure_nginx: true
+option_install_sentry_plugins: true
 
 sentry_user: sentry
 sentry_home: "/home/{{sentry_user}}"
@@ -37,6 +38,7 @@ sentry_conf_properties:
 sentry_yml_properties:
     - {regexp: "^#?system.secret-key:*", line: "system.secret-key: '{{sentry_secret_key}}'"}
     - {regexp: "^#?mail.from:*", line: "mail.from: '{{sentry_mail_from}}'"}
+    - {regexp: "^#?system.url-prefix:*", line: "system.url-prefix: '{{sentry_domain}}'"}
 
 
 sentry_certificates_pack:

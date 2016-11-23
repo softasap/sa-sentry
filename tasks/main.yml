@@ -5,6 +5,9 @@
 
   - include: tasks_sentry.yml
 
+  - include: tasks_sentry_plugins.yml
+    when: option_install_sentry_plugins
+
   - include: tasks_sentry_supervisord.yml
     when: option_configure_startup
 

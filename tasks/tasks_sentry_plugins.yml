@@ -1,0 +1,16 @@
+---
+
+  - name: SENTRY | Install plugins from https://github.com/getsentry/sentry-plugins/
+    shell: source {{sentry_virtual_env}}/bin/activate && \
+           pip install -U sentry-plugins \
+           executable=/bin/bash
+    become: yes
+    become_user: "{{sentry_user}}"
+
+
+  - name: SENTRY | Execute plugins migration
+    shell: source {{sentry_virtual_env}}/bin/activate && \
+           SENTRY_CONF=/home/sentry/conf sentry upgrade --noinput --lock -v 2 \
+           executable=/bin/bash
+    become: yes
+    become_user: "{{sentry_user}}"
