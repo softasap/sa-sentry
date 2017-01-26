@@ -3,10 +3,13 @@
 
 role_dir: "{{role_path}}"
 
+option_install_sentry: true
 option_create_database: true
 option_configure_startup: true
 option_configure_nginx: true
 option_install_sentry_plugins: true
+
+option_sentry_addon_users: false
 
 sentry_user: sentry
 sentry_home: "/home/{{sentry_user}}"
@@ -32,6 +35,12 @@ sentry_conf_properties:
     - {regexp: "^SECURE_PROXY_SSL_HEADER =*", line: "SECURE_PROXY_SSL_HEADER = (\"HTTP_X_FORWARDED_PROTOCOL\", \"https\")" }
 
 
+#sentry_application_users:
+#  - {
+#    email: "root@localhost",
+#    password: "VerySecurePassword",
+#    role: "superuser" # no-superuser
+#    }
 
 # Set this to false to require authentication
 

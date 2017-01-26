@@ -4,12 +4,17 @@
   - include: __detect_init_system.yml
 
   - include: tasks_sentry.yml
+    when: option_install_sentry and option_install_sentry != 'false'
 
   - include: tasks_sentry_plugins.yml
-    when: option_install_sentry_plugins
+    when: option_install_sentry_plugins and option_install_sentry_plugins != 'false'
 
   - include: tasks_sentry_supervisord.yml
-    when: option_configure_startup
+    when: option_configure_startup and option_configure_startup != 'false'
 
   - include: tasks_sentry_nginx.yml
-    when: option_configure_nginx
+    when: option_configure_nginx and option_configure_nginx != 'false'
+
+  - include: tasks_sentry_addon_users.yml
+    when: option_sentry_addon_users and option_sentry_addon_users != 'false'
+

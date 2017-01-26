@@ -32,6 +32,29 @@ Simple
 
 ```
 
+User precreation
+
+```YAML
+
+my_sentry_users:
+  - {
+    email: "root@localhost",
+    password: "VerySecurePassword",
+    role: "superuser" # no-superuser
+    }
+
+
+```
+
+```
+  roles:
+     - {
+         role: "sa-sentry",
+         option_sentry_addon_users: true,
+         sentry_application_users: "{{my_sentry_users}}"
+       }
+```
+
 
 Advanced
 
