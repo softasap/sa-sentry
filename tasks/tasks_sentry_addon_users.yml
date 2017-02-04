@@ -1,6 +1,6 @@
   - name: SENTRY USERS ADDON | Initialize application users
     shell: source {{sentry_virtual_env}}/bin/activate && \
-           SENTRY_CONF=/home/sentry/conf sentry createuser --noinput --email {{item.email}} --password {{item.password}} --{{item.role}}  \
+           SENTRY_CONF=/home/sentry/conf sentry createuser --email {{item.email}} --password {{item.password}} --{{item.role}}  \
            executable=/bin/bash
     with_items: "{{sentry_application_users | default([])}}"
     become: yes
