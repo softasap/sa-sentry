@@ -8,6 +8,7 @@ option_create_database: true
 option_configure_startup: true
 option_configure_nginx: true
 option_install_sentry_plugins: true
+option_install_python: false
 
 option_sentry_addon_users: false
 

@@ -66,13 +66,13 @@
       ignore_errors: true
 
     - debug: msg="Looks like sentry db already exists"
-      when: not ( sentry_db_exists | failed )
+      when: not ( sentry_db_exists is failed )
 
     - name: SENTRY | Initialize initial database with
       shell: source {{sentry_virtual_env}}/bin/activate && \
              createdb -E utf-8 {{sentry_database_name}} \
              executable=/bin/bash
-      when: sentry_db_exists | failed
+      when: sentry_db_exists is failed
       become: yes
       become_user: "{{sentry_user}}"
 
@@ -132,7 +132,7 @@
        shell: source {{sentry_virtual_env}}/bin/activate && \
               SENTRY_CONF=/home/sentry/conf sentry upgrade --noinput --lock -v 2 \
               executable=/bin/bash
-       when: sentry_db_exists | failed
+       when: sentry_db_exists is failed
        become: yes
        become_user: "{{sentry_user}}"
 
