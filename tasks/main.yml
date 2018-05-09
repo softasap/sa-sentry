@@ -3,7 +3,7 @@
 
   - include_tasks: __detect_init_system.yml
  
-  - include_tasks: tasks_python
+  - include_tasks: tasks_python.yml
     when: option_install_python
 
   - include_tasks: tasks_sentry.yml
