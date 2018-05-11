@@ -33,6 +33,7 @@
       - "libxslt-dev"
       - "libyaml-dev"
       - "libpq-dev"
+      - "acl" 
     become: yes
     tags:
       - sentry
