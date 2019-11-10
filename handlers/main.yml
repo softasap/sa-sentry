@@ -4,12 +4,15 @@
     service: name="supervisor" state="stopped"
     become: yes
     notify: start supervisor
+    when: docker_test is not defined
 
   - name: start supervisor
     service: name="supervisor" state="started"
     become: yes
+    when: docker_test is not defined
 
   - name: restart nginx
     service: name="nginx" state="restarted"
     become: yes
+    when: docker_test is not defined
 
