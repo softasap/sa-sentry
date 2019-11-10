@@ -157,6 +157,7 @@
               executable=/bin/bash
        register: sentry_statics_collected
        changed_when: not sentry_statics_collected.stderr.startswith('\n0 static files copied')
+       when: docker_test is not defined
        become: yes
        become_user: "{{ sentry_user }}"
 

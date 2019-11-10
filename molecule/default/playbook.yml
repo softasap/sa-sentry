@@ -12,6 +12,32 @@
 
   roles:
      - {
+         role: "sa-python",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-redis",
+         option_install_using_chris_lea_ppa: true,
+         tags: ["create", "update"]
+       }
+     - {
+         role: "sa-supervisord",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-postgres",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-nginx",
+         tags: ["create"]
+       }
+     - {
+         role: "sa-uwsgi",
+         tags: ["create"]
+       }
+
+     - {
         role: "sa-sentry",
         option_install_python: true
        }

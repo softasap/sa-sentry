@@ -10,14 +10,14 @@
     when: option_install_sentry and option_install_sentry != 'false'
 
   - include_tasks: tasks_sentry_plugins.yml
-    when: option_install_sentry_plugins and option_install_sentry_plugins != 'false'
+    when: option_install_sentry_plugins and option_install_sentry_plugins != 'false' and docker_test is not defined
 
   - include_tasks: tasks_sentry_supervisord.yml
-    when: option_configure_startup and option_configure_startup != 'false'
+    when: option_configure_startup and option_configure_startup != 'false' and docker_test is not defined
 
   - include_tasks: tasks_sentry_nginx.yml
-    when: option_configure_nginx and option_configure_nginx != 'false'
+    when: option_configure_nginx and option_configure_nginx != 'false' and docker_test is not defined
 
   - include_tasks: tasks_sentry_addon_users.yml
-    when: option_sentry_addon_users and option_sentry_addon_users != 'false'
+    when: option_sentry_addon_users and option_sentry_addon_users != 'false' and docker_test is not defined
 
