@@ -1,7 +1,7 @@
 ---
 # handlers file for sa-sentry
   - name: restart sentry
-    service: name="supervisor" state="stopped"    
+    service: name="supervisor" state="stopped"
     become: yes
     notify: start supervisor
 

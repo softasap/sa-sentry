@@ -2,7 +2,7 @@
 # tasks file for sa-sentry
 
   - include_tasks: __detect_init_system.yml
- 
+
   - include_tasks: tasks_python.yml
     when: option_install_python
 

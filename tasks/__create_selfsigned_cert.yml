@@ -1,7 +1,8 @@
 --- # Credits https://github.com/StarterSquad/prudentia/blob/master/prudentia/tasks/ssl-self-certificate.yml
   - name: Self signed | Check presense
-    shell: test -e {{target_dir}}/{{key}}.key && test -e {{target_dir}}/{{crt}}.crt
+    shell: test -e {{ target_dir }}/{{ key }}.key && test -e {{ target_dir }}/{{ crt }}.crt
     become: yes
+    changed_when: False
     ignore_errors: true
     register: selfsignedcert_present
 
@@ -11,10 +12,10 @@
     become: yes
 
   - name: Self signed | Generate self signed passwordless certificate
-    command: openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj "/C=EU/ST=Ukraine/L=Lviv/O=Dis/CN={{fqdn}}" -keyout {{key}}.key  -out {{crt}}.crt
+    command: openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -subj "/C=EU/ST=Ukraine/L=Lviv/O=Dis/CN={{ fqdn }}" -keyout {{ key }}.key  -out {{ crt }}.crt
     when: selfsignedcert_present is failed
 
   - name: Self signed | Move files to target dir
-    command: mv -t {{target_dir}} {{key}}.key {{crt}}.crt
+    command: mv -t {{ target_dir }} {{ key }}.key {{ crt }}.crt
     when: selfsignedcert_present is failed
     become: yes

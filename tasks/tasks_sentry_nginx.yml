@@ -1,13 +1,15 @@
 ---
-  - include: tasks_prepare_ssl.yml
+  - include_tasks: tasks_prepare_ssl.yml
 
   - name: Nginx | configure web startup
-    template: src="{{role_dir}}/templates/nginx/nginx.conf.j2" dest="/etc/nginx/sites-available/sentry.conf"
+    template: src="{{ role_dir }}/templates/nginx/nginx.conf.j2" dest="/etc/nginx/sites-available/sentry.conf"
     become: yes
 
   - name: Nginx | Enable site
     command: ln -fs /etc/nginx/sites-available/sentry.conf /etc/nginx/sites-enabled/sentry.conf creates=/etc/nginx/sites-enabled/sentry.conf
     become: yes
+    tags:
+      - skip_ansible_lint
 
   - name: Nginx | Restart
     service: name="nginx" state=restarted
