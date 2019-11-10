@@ -28,10 +28,11 @@ sentry_bind_to: "0.0.0.0"
 
 
 sentry_conf_properties:
-    - {regexp: "^SENTRY_FEATURES\\['auth:register'\\]*", line: "SENTRY_FEATURES['auth:register'] = {{sentry_registration_allowed}}"}
-    - {regexp: "^        'USER':*", line: "        'USER': '{{sentry_database_user}}',"}
+    - {regexp: "^SENTRY_FEATURES\\['auth:register'\\]*", line: "SENTRY_FEATURES['auth:register'] = {{ sentry_registration_allowed }}"}
+    - {regexp: "^        'USER':*", line: "        'USER': '{{ sentry_database_user }}',"}
+    - {regexp: "^        'PASSWORD':*", line: "        'PASSWORD': '{{ sentry_database_password }}',"}
     - {regexp: "^SENTRY_PUBLIC =*", line: "SENTRY_PUBLIC = False"}
-    - {regexp: "^SENTRY_WEB_HOST =*", line: "SENTRY_WEB_HOST = '{{sentry_bind_to}}'" }
+    - {regexp: "^SENTRY_WEB_HOST =*", line: "SENTRY_WEB_HOST = '{{ sentry_bind_to }}'" }
     - {regexp: "^SESSION_COOKIE_SECURE =*", line: "SESSION_COOKIE_SECURE = True" }
     - {regexp: "^SECURE_PROXY_SSL_HEADER =*", line: "SECURE_PROXY_SSL_HEADER = (\"HTTP_X_FORWARDED_PROTOCOL\", \"https\")" }
 
