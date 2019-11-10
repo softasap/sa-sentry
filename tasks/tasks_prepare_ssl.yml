@@ -11,4 +11,9 @@
       - restart nginx
 
 
-  - include_tasks: "{{ role_dir }}/tasks/__create_selfsigned_cert.yml fqdn='{{ sentry_domain }}' key='{{ sentry_ssl_key }}' crt='{{ sentry_ssl_crt }}' target_dir='/etc/nginx'"
+  - include_tasks: "{{ role_dir }}/tasks/__create_selfsigned_cert.yml"
+    vars:
+        fqdn: "{{ sentry_domain }}"
+        key: "{{ sentry_ssl_key }}"
+        crt: "{{ sentry_ssl_crt }}"
+        target_dir: "/etc/nginx"

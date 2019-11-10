@@ -59,8 +59,9 @@
 
   - block:
 
+    # citext"\nHINT:  Must be superuser to create this extension
     - name: SENTRY | Create db user
-      postgresql_user: name="{{ sentry_database_user }}" password="{{ sentry_database_password }}" role_attr_flags="CREATEDB,NOSUPERUSER"
+      postgresql_user: name="{{ sentry_database_user }}" password="{{ sentry_database_password }}" role_attr_flags="CREATEDB,SUPERUSER"
       become_user: postgres
       become: yes
       tags:
@@ -144,8 +145,9 @@
        become_user: "{{ sentry_user }}"
 
      - name: SENTRY | Execute migrations, if any
+       # TODO: --lock should be present
        shell: source {{ sentry_virtual_env }}/bin/activate && \
-              SENTRY_CONF=/home/sentry/conf sentry upgrade --noinput --lock -v 2 \
+              SENTRY_CONF=/home/sentry/conf sentry upgrade --noinput -v 2 \
               executable=/bin/bash
        when: sentry_db_exists is failed
        become: yes
