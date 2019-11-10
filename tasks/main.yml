@@ -1,20 +1,23 @@
 ---
 # tasks file for sa-sentry
 
-  - include: __detect_init_system.yml
+  - include_tasks: __detect_init_system.yml
 
-  - include: tasks_sentry.yml
+  - include_tasks: tasks_python.yml
+    when: option_install_python
+
+  - include_tasks: tasks_sentry.yml
     when: option_install_sentry and option_install_sentry != 'false'
 
-  - include: tasks_sentry_plugins.yml
-    when: option_install_sentry_plugins and option_install_sentry_plugins != 'false'
+  - include_tasks: tasks_sentry_plugins.yml
+    when: option_install_sentry_plugins and option_install_sentry_plugins != 'false' and docker_test is not defined
 
-  - include: tasks_sentry_supervisord.yml
-    when: option_configure_startup and option_configure_startup != 'false'
+  - include_tasks: tasks_sentry_supervisord.yml
+    when: option_configure_startup and option_configure_startup != 'false' and docker_test is not defined
 
-  - include: tasks_sentry_nginx.yml
-    when: option_configure_nginx and option_configure_nginx != 'false'
+  - include_tasks: tasks_sentry_nginx.yml
+    when: option_configure_nginx and option_configure_nginx != 'false' and docker_test is not defined
 
-  - include: tasks_sentry_addon_users.yml
-    when: option_sentry_addon_users and option_sentry_addon_users != 'false'
+  - include_tasks: tasks_sentry_addon_users.yml
+    when: option_sentry_addon_users and option_sentry_addon_users != 'false' and docker_test is not defined
 

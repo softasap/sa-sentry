@@ -1,0 +1,14 @@
+- src: softasap.sa-redis
+  name: sa-redis
+- src: softasap.sa-supervisord
+  name: sa-supervisord
+- src: softasap.sa-postgres
+  name: sa-postgres
+- src: softasap.sa-nginx
+  name: sa-nginx
+- src: softasap.sa-uwsgi
+  name: sa-uwsgi
+- src: softasap.sa-python
+  name: sa-python
+
+

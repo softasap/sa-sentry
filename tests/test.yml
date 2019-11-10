@@ -3,5 +3,7 @@
   roles:
     - {
         role: "role_under_test",
-        docker_test: true
+        docker_test: true,
+        firewall_used: docker,
+        option_install_python: true
       }
