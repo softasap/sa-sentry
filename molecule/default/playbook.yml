@@ -12,5 +12,6 @@
 
   roles:
      - {
-        role: "sa-sentry"
+        role: "sa-sentry",
+        option_install_python: true
        }

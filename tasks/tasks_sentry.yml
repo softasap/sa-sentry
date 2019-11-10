@@ -38,6 +38,13 @@
     tags:
       - sentry
 
+  - name: SENTRY | Fix setup tools
+    shell: pip install setuptools
+    become: yes
+    tags:
+      - sentry
+      - skip_ansible_lint
+
   - name: SENTRY | Install Sentry
     pip: name=sentry version={{ sentry_version | default(omit) }} virtualenv="{{ sentry_virtual_env }}"
     become: yes
@@ -77,7 +84,7 @@
       become: yes
       become_user: "{{ sentry_user }}"
 
-    when: option_create_database
+    when: option_create_database and docker_test is not defined
 
   - block:
 
